@@ -1,6 +1,9 @@
+const UserService = require("../services/user.service");
+const UserServiceInstance = new UserService();
+
 class AuthService {
-  signup = (user) => {
-    console.log(user);
+  signup = async (user) => {
+    return await UserServiceInstance.register(user);
   };
 }
 
