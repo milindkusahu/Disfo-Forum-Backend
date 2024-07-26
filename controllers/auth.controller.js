@@ -13,7 +13,7 @@ const postSignup = async (req, res) => {
 const postLogin = async (req, res) => {
   try {
     const result = await AuthServiceInstance.login(req.body);
-    if (result.isLoggedId) {
+    if (result.isLoggedIn) {
       res.json(result);
     } else {
       res.sendStatus(403);

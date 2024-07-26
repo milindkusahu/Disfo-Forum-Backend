@@ -18,9 +18,22 @@ class AuthService {
     return hash;
   };
 
-  login = async (user) => {
-    console.log(user);
-    return user;
+  login = async ({ username, password }) => {
+    const isPasswordSame = await this.verifyPassword(username, password);
+    if (isPasswordSame) {
+      return { isLoggedIn: true };
+    } else {
+      return {};
+    }
+  };
+
+  verifyPassword = async (username, password) => {
+    const user = await UserServiceInstance.findByUsername(username);
+    if (!user) return false;
+    const storedPassword = user.password;
+    const isPasswordSame = await bcrypt.compare(password, storedPassword);
+    if (isPasswordSame) return true;
+    return false;
   };
 }
 
