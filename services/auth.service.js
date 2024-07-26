@@ -17,6 +17,11 @@ class AuthService {
     const hash = await bcrypt.hash(password, salt);
     return hash;
   };
+
+  login = async (user) => {
+    console.log(user);
+    return user;
+  };
 }
 
 module.exports = AuthService;

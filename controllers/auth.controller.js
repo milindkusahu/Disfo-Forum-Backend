@@ -10,4 +10,17 @@ const postSignup = async (req, res) => {
   }
 };
 
-module.exports = { postSignup };
+const postLogin = async (req, res) => {
+  try {
+    const result = await AuthServiceInstance.login(req.body);
+    if (result.isLoggedId) {
+      res.json(result);
+    } else {
+      res.sendStatus(403);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = { postSignup, postLogin };
