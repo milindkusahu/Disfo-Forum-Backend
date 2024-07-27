@@ -14,6 +14,10 @@ const postLogin = async (req, res) => {
   try {
     const result = await AuthServiceInstance.login(req.body);
     if (result.isLoggedIn) {
+      res.cookie("token", result.token, {
+        maxAge: 1000 * 60 * 60,
+        httpOnly: true,
+      });
       res.json(result);
     } else {
       res.sendStatus(403);

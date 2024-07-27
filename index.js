@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const userRoutes = require("./routes/user.routes");
 const discussionRoutes = require("./routes/discussion.routes");
 const authRoutes = require("./routes/auth.routes");
@@ -15,6 +16,13 @@ mongoose
   .then(() => console.log("Connected to DB at", DB_URI))
   .catch((error) => console.log("Failed to connect to DB\n", error));
 
+app.use(
+  cors({
+    origin: `http://127.0.0.1:3000`,
+    allowedHeaders: "Origin, X-Requested-With', Content-Type, Accept",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use("/user", userRoutes);
 app.use("/discussion", discussionRoutes);

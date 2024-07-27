@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const UserService = require("../services/user.service");
 const UserServiceInstance = new UserService();
+const JWT = require("jsonwebtoken");
 
 class AuthService {
   signup = async (user) => {
@@ -21,7 +22,7 @@ class AuthService {
   login = async ({ username, password }) => {
     const isPasswordSame = await this.verifyPassword(username, password);
     if (isPasswordSame) {
-      return { isLoggedIn: true };
+      return { isLoggedIn: true, token: this.generateToken(username) };
     } else {
       return {};
     }
@@ -34,6 +35,18 @@ class AuthService {
     const isPasswordSame = await bcrypt.compare(password, storedPassword);
     if (isPasswordSame) return true;
     return false;
+  };
+
+  generateToken = (username) => {
+    const payload = {
+      username,
+    };
+    const options = {
+      expiresIn: "1h",
+    };
+    const secret = process.env.JWT_SECRET;
+    const token = JWT.sign(payload, secret, options);
+    return token;
   };
 }
 
