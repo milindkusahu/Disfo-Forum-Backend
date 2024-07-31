@@ -23,8 +23,14 @@ const {
 const validateDiscussion = validateSchema(discussionValidationSchema);
 const validateComment = validateSchema(commentValidationSchema);
 
+const passport = require("passport");
+const authenticationMiddleware = passport.authenticate("jwt", {
+  session: false,
+});
+
 router.post(
   "/new",
+  authenticationMiddleware,
   fetchUserInCollection,
   validateDiscussion,
   createNewDiscussion

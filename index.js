@@ -6,6 +6,12 @@ const discussionRoutes = require("./routes/discussion.routes");
 const authRoutes = require("./routes/auth.routes");
 const mongoose = require("mongoose");
 
+//--------------------------------------------------------
+const passport = require("passport");
+const configurePassport = require("./config/passport.js");
+configurePassport(passport);
+//--------------------------------------------------------
+
 const DB_URI = "mongodb://127.0.0.1:27017";
 
 const app = express();
